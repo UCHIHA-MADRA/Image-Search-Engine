@@ -15,14 +15,14 @@ async function searchImages() {
         const response = await fetch(url);
         const data = await response.json();
 
-
-        if (page === 1)
-        {
-            searchResult.innerHTML=""
+        // Clear previous search results when searching for a new keyword or page 1
+        if (page === 1) {
+            searchResult.innerHTML = "";
         }
         
         const results = data.results;
 
+        // Display search results
         results.forEach(result => {
             const image = document.createElement("img");
             image.src = result.urls.small;
@@ -33,6 +33,8 @@ async function searchImages() {
             imageLink.appendChild(image);
             searchResult.appendChild(imageLink);
         });
+
+        // Show 'Show more' button
         showMoreBtn.style.display = "block";
 
         console.log(data);
@@ -41,14 +43,15 @@ async function searchImages() {
     }
 }
 
+// Event listener for form submission
 searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    page = 1;
-    searchResult.innerHTML = ""; // Clear previous search results
+    page = 1; // Reset page to 1 when submitting the form
     searchImages();
 });
 
+// Event listener for 'Show more' button click
 showMoreBtn.addEventListener("click", () => {
-    page++;
-    searchImages()
-})
+    page++; // Increment page number for pagination
+    searchImages();
+});
